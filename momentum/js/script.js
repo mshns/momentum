@@ -66,12 +66,10 @@ function getTimeOfDay() {
 function getRandomNum(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
-
-let randomNum;
+let randomNum = getRandomNum(1, 20);
 
 function setBg() {
-  const timeOfDay = getTimeOfDay();
-  const randomNum = getRandomNum(1, 20);
+  const timeOfDay = getTimeOfDay();  
   const bgNum = String(randomNum).padStart(2, '0');
   const img = new Image();
   img.src = `https://raw.githubusercontent.com/mshns/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
