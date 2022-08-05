@@ -38,13 +38,14 @@ const yourName = document.querySelector('.name');
 function setLocalStorage() {
   localStorage.setItem('name', yourName.value);
 }
-window.addEventListener('beforeunload', setLocalStorage)
+window.addEventListener('beforeunload', setLocalStorage);
+
 function getLocalStorage() {
-  if(localStorage.getItem('name')) {
+  if (localStorage.getItem('name')) {
     yourName.value = localStorage.getItem('name');
   }
 }
-window.addEventListener('load', getLocalStorage)
+window.addEventListener('load', getLocalStorage);
 
 
 // slider bg images
@@ -74,7 +75,7 @@ function setBg() {
   const img = new Image();
   img.src = `https://raw.githubusercontent.com/mshns/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
   img.onload = () => {
-    document.body.style.backgroundImage = `url('https://raw.githubusercontent.com/mshns/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg')`;
+    document.body.style.backgroundImage = `url(${img.src})`;
   }; 
 }
 
@@ -106,14 +107,26 @@ arrowNext.addEventListener('click', function getSlideNext() {
 const city = document.querySelector('.city');
 city.value = 'Minsk';
 
+function setLocalStorageCity() {
+  localStorage.setItem('city', city.value);
+}
+window.addEventListener('beforeunload', setLocalStorageCity)
+
+function getLocalStorageCity() {
+  if (localStorage.getItem('city')) {
+    city.value = localStorage.getItem('city');
+    getWeather();
+  }
+}
+window.addEventListener('load', getLocalStorageCity)
+
 const weatherIcon = document.querySelector('.weather-icon');
 const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description');
 const wind = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
-let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
-
 async function getWeather() {
+  url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
   if (data.cod === 200) {
@@ -137,9 +150,35 @@ async function getWeather() {
     humidity.textContent = undefined;
   }
 }
-getWeather()
+getWeather();
 
-city.addEventListener("change", function () {
+city.addEventListener('change', function () {
   url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
   getWeather();
+});
+
+// quotes
+
+const quoteText = document.querySelector('.quote');
+const quoteAuthor = document.querySelector('.author');
+
+let quoteNum = getRandomNum(1, 95);
+
+async function getQuotes() {  
+  const quotes = 'json/quotes.json';
+  const res = await fetch(quotes);
+  const data = await res.json(); 
+  quoteText.textContent = data[quoteNum].quote;
+  quoteAuthor.textContent = data[quoteNum].author;
+}
+getQuotes();
+
+const changeQuote = document.querySelector('.change-quote');
+changeQuote.addEventListener('click', function() {
+  let quoteNext = quoteNum;
+  while (quoteNext === quoteNum) {
+    quoteNext = getRandomNum(1, 95);
+  }
+  quoteNum = quoteNext;
+  getQuotes();
 });
