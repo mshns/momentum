@@ -100,3 +100,46 @@ arrowNext.addEventListener('click', function getSlideNext() {
   }
   setBg();
 });
+
+// weather
+
+const city = document.querySelector('.city');
+city.value = 'Minsk';
+
+const weatherIcon = document.querySelector('.weather-icon');
+const temperature = document.querySelector('.temperature');
+const weatherDescription = document.querySelector('.weather-description');
+const wind = document.querySelector('.wind');
+const humidity = document.querySelector('.humidity');
+let url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
+
+async function getWeather() {
+  const res = await fetch(url);
+  const data = await res.json();
+  if (data.cod === 200) {
+    weatherIcon.className = 'weather-icon owf';
+    weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+    temperature.textContent = `${Math.round(data.main.temp)}°C`;
+    weatherDescription.textContent = data.weather[0].description;
+    wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
+    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`;
+  } else if (city.value === '') {
+    weatherIcon.className = 'weather-icon owf';
+    temperature.textContent = 'Please enter your city to check the weather 🙂';
+    weatherDescription.textContent = undefined;
+    wind.textContent = undefined;
+    humidity.textContent = undefined;
+  } else {
+    weatherIcon.className = 'weather-icon owf';
+    temperature.textContent = `Error! The weather in "${city.value}" is unknown 😐`;
+    weatherDescription.textContent = undefined;
+    wind.textContent = undefined;
+    humidity.textContent = undefined;
+  }
+}
+getWeather()
+
+city.addEventListener("change", function () {
+  url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
+  getWeather();
+});
