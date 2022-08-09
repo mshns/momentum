@@ -58,10 +58,10 @@ body {
 }
 
 .play-item::before {
-  content: "\2713";  
+  content: "\25B6";  
   position: absolute;
   left: 0;
-  top: 2px;
+  top: 0;
   font-weight: 900;
 }
 

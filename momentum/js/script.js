@@ -105,6 +105,7 @@ arrowNext.addEventListener('click', function getSlideNext() {
 // weather
 
 const city = document.querySelector('.city');
+let url;
 city.value = 'Minsk';
 
 function setLocalStorageCity() {
@@ -125,6 +126,7 @@ const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description');
 const wind = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
+const weatherError = document.querySelector('.weather-error');
 async function getWeather() {
   url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
   const res = await fetch(url);
@@ -132,19 +134,22 @@ async function getWeather() {
   if (data.cod === 200) {
     weatherIcon.className = 'weather-icon owf';
     weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+    weatherError.textContent = undefined;
     temperature.textContent = `${Math.round(data.main.temp)}°C`;
     weatherDescription.textContent = data.weather[0].description;
     wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
     humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`;
   } else if (city.value === '') {
     weatherIcon.className = 'weather-icon owf';
-    temperature.textContent = 'Please enter your city to check the weather 🙂';
+    weatherError.textContent = 'Please enter your city to check the weather 🙂';
+    temperature.textContent = undefined;
     weatherDescription.textContent = undefined;
     wind.textContent = undefined;
     humidity.textContent = undefined;
   } else {
     weatherIcon.className = 'weather-icon owf';
-    temperature.textContent = `Error! The weather in "${city.value}" is unknown 😐`;
+    weatherError.textContent = `Error! The weather in "${city.value}" is unknown 😐`;
+    temperature.textContent = undefined;
     weatherDescription.textContent = undefined;
     wind.textContent = undefined;
     humidity.textContent = undefined;
@@ -182,3 +187,57 @@ changeQuote.addEventListener('click', function() {
   quoteNum = quoteNext;
   getQuotes();
 });
+
+// audio player
+
+import playList from './playList.js';
+const playListContainer = document.querySelector('.play-list');
+playList.forEach(el => {
+  const li = document.createElement('li');
+  li.classList.add('play-item');
+  li.textContent = `${el.title} | ${el.duration}`;
+  playListContainer.append(li);
+});
+
+const play = document.querySelector('.play');
+const playPrev = document.querySelector('.play-prev');
+const playNext = document.querySelector('.play-next');
+const musicTrack = playListContainer.childNodes;
+
+
+let playNum = 0;
+let isPlay = false;
+const audio = new Audio();
+
+function playAudio() {
+  audio.src = audio.src = playList[playNum].src;
+  play.classList.toggle('pause');
+  musicTrack[playNum].classList.add('item-active');
+  if (!isPlay) {
+    audio.currentTime = 0;
+    audio.play();
+    isPlay = true;
+  } else {
+    audio.pause();
+    isPlay = false;
+  }
+}
+play.addEventListener('click', playAudio);
+
+playPrev.addEventListener('click', function() {
+  musicTrack[playNum].classList.remove('item-active');
+  playNum === 0 ? playNum = playList.length - 1 : playNum--;
+  isPlay = false;
+  play.classList.remove('pause');
+  playAudio();
+});
+
+function nextTrack() {
+  musicTrack[playNum].classList.remove('item-active');
+  playNum === playList.length - 1 ? playNum = 0 : playNum++;
+  isPlay = false;
+  play.classList.remove('pause');
+  playAudio();
+}
+
+playNext.addEventListener('click', nextTrack);
