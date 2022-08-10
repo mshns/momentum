@@ -31,12 +31,50 @@ body {
   padding: 20px;
 }
 
+.current-track {
+  width: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.current-track-title {
+  width: 210px;
+  padding: 5px;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.current-track-time {
+  width: 90px;
+  padding: 5px;
+  text-align: right;
+}
+
+.current-track-scale {
+  width: 100%;
+  height: 10px;
+  background-color: rgb(255, 255, 255, .8);
+  margin-bottom: 10px;
+}
+
+.current-track-progress {
+  width: 0;
+  height: 10px;
+  background-color: #C5B358;
+  margin-bottom: 10px;
+}
+
 .player-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 120px;
-  margin-bottom: 28px;
+  margin-bottom: 10px;
 }
 
 .play-list {
@@ -46,7 +84,7 @@ body {
 .play-item {
   position: relative;
   padding: 5px;
-  padding-left: 20px;
+  padding-left: 28px;
   list-style: none;
   opacity: .8;
   cursor: pointer;
@@ -58,15 +96,23 @@ body {
 }
 
 .play-item::before {
-  content: "\25B6";  
+  content: '';  
   position: absolute;
   left: 0;
-  top: 0;
-  font-weight: 900;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-position: center;
+  background-image: url("../assets/svg/play.svg");
+}
+
+.item-active {
+  color: #C5B358;
 }
 
 .item-active::before {
-  color: #C5B358;
+  background-image: url("../assets/svg/pause.svg");
 }
 
 .player-icon,
@@ -118,6 +164,26 @@ body {
   background-image: url("../assets/svg/play-next.svg");
 }
 
+.volume-icon {
+  background-image: url("../assets/svg/volume-off.svg");
+}
+
+.volume-icon-on {
+  background-image: url("../assets/svg/volume-on.svg");
+}
+
+.volume-bar {
+  width: 100px;
+  height: 10px;
+  background-color: rgb(255, 255, 255, .8);
+}
+
+.volume-progress {
+  width: 50%;
+  height: 10px;
+  background-color: #C5B358;
+}
+
 .weather {
   display: flex;
   flex-direction: column;
@@ -154,7 +220,7 @@ body {
   color: #fff;  
   border: 0;
   outline: 0;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgb(255, 255, 255, .8);
   background-color: transparent;
 }
 
