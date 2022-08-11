@@ -301,3 +301,12 @@ volumeBar.addEventListener('click', function(changeVolume) {
     volumeBtn.classList.remove('volume-icon-on');
   }
 });
+
+// settings
+
+const settingsBtn = document.querySelector('.settings-button');
+const settingsContainer = document.querySelector('.settings-container');
+
+settingsBtn.addEventListener('click', function() {
+  settingsContainer.classList.toggle('active');
+});
