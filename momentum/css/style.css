@@ -19,6 +19,7 @@ body {
   background-blend-mode: multiply;
   transition: background-image 1s ease-in-out;
   overflow: hidden;
+  background-size: cover;
 }
 
 .header {
@@ -69,6 +70,10 @@ body {
   height: 10px;
   background-color: #C5B358;
   margin-bottom: 10px;
+}
+
+.player {
+  transition: ease-in-out .5s;
 }
 
 .player-controls {
@@ -194,6 +199,7 @@ body {
   width: 180px;
   min-height: 180px;  
   text-align: left;
+  transition: ease-in-out .5s;
 }
 
 .weather-error {
@@ -266,13 +272,15 @@ body {
   margin-bottom: 10px;
   font-family: 'Arial-MT';
   font-size: 100px;
-  letter-spacing: -4px;  
+  letter-spacing: -4px;
+  transition: ease-in-out .5s;
 }
 
 .date {
   min-height: 28px;
   font-size: 24px;
   margin-bottom: 20px;
+  transition: ease-in-out .5s;
 }
 
 .greeting-container {
@@ -283,6 +291,7 @@ body {
   min-height: 48px;
   width: 100vw;
   font-size: 40px;
+  transition: ease-in-out .5s;
 }
 
 .greeting {
@@ -357,6 +366,16 @@ body {
   border-bottom: 1px solid rgb(255, 255, 255, .1);
 }
 
+.input-widget-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;  
+}
+
+.input-widget-item {
+  margin: 6px;
+}
 
 .settings {
   width: 20%;
@@ -394,7 +413,8 @@ body {
 
 .quotes {
   width: 60%;
-  padding-bottom: 60px ;
+  padding-bottom: 60px;
+  transition: ease-in-out .5s;
 }
 
 .quote {

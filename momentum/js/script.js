@@ -1,13 +1,16 @@
 // time and greeting
 
+const time = document.querySelector('.time');
+const showDate = document.querySelector('.date');
+
 function showTime() {
-  const time = document.querySelector('.time');
+ 
   const date = new Date();
   const currentTime = date.toLocaleTimeString();
   time.textContent = currentTime;
   setTimeout(showTime, 1000);
 
-  const showDate = document.querySelector('.date');
+  
   const options = {month: 'long', day: 'numeric', weekday: 'long'};
   const currentDate = date.toLocaleDateString('en-En', options);
   showDate.textContent = currentDate;
@@ -35,6 +38,7 @@ showTime();
 // enter name
 
 const yourName = document.querySelector('.name');
+
 function setLocalStorage() {
   localStorage.setItem('name', yourName.value);
 }
@@ -309,4 +313,36 @@ const settingsContainer = document.querySelector('.settings-container');
 
 settingsBtn.addEventListener('click', function() {
   settingsContainer.classList.toggle('active');
+});
+
+const checkboxTime = document.getElementById('checkbox-time');
+const checkboxDate = document.getElementById('checkbox-date');
+const checkboxGreeting = document.getElementById('checkbox-greeting');
+const checkboxWeather = document.getElementById('checkbox-weather');
+const checkboxPlayer = document.getElementById('checkbox-player');
+const checkboxQuote = document.getElementById('checkbox-quote');
+const checkboxTodo = document.getElementById('checkbox-todo');
+
+const greetingContainer = document.querySelector('.greeting-container');
+const weatherContainer = document.querySelector('.weather');
+const audioPlayer = document.querySelector('.player');
+const quotesContainer = document.querySelector('.quotes');
+
+checkboxTime.addEventListener('change', function() {
+  checkboxTime.checked ? time.style.opacity = '1' : time.style.opacity = '0';
+});
+checkboxDate.addEventListener('change', function() {
+  checkboxDate.checked ? showDate.style.opacity = '1' : showDate.style.opacity = '0';
+});
+checkboxGreeting.addEventListener('change', function() {
+  checkboxGreeting.checked ? greetingContainer.style.opacity = '1' : greetingContainer.style.opacity = '0';
+});
+checkboxWeather.addEventListener('change', function() {
+  checkboxWeather.checked ? weatherContainer.style.opacity = '1' : weatherContainer.style.opacity = '0';
+});
+checkboxPlayer.addEventListener('change', function() {
+  checkboxPlayer.checked ? audioPlayer.style.opacity = '1' : audioPlayer.style.opacity = '0';
+});
+checkboxQuote.addEventListener('change', function() {
+  checkboxQuote.checked ? quotesContainer.style.opacity = '1' : quotesContainer.style.opacity = '0';
 });
