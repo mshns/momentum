@@ -4,13 +4,11 @@ const time = document.querySelector('.time');
 const showDate = document.querySelector('.date');
 
 function showTime() {
- 
   const date = new Date();
   const currentTime = date.toLocaleTimeString();
   time.textContent = currentTime;
   setTimeout(showTime, 1000);
 
-  
   const options = {month: 'long', day: 'numeric', weekday: 'long'};
   const currentDate = date.toLocaleDateString('en-En', options);
   showDate.textContent = currentDate;
@@ -32,7 +30,6 @@ function showTime() {
   const timeOfDay = getTimeOfDay();
   greeting.textContent = `Good ${timeOfDay},`;
 }
-
 showTime();
 
 // enter name
@@ -50,7 +47,6 @@ function getLocalStorage() {
   }
 }
 window.addEventListener('load', getLocalStorage);
-
 
 // slider bg images
 
@@ -73,17 +69,57 @@ function getRandomNum(min, max) {
 }
 let randomNum = getRandomNum(1, 20);
 
-function setBg() {
-  const timeOfDay = getTimeOfDay();  
+const imgSourceSelect = document.getElementById('img-source');
+imgSourceSelect.addEventListener('change', function() {
+  setBg()
+});
+
+const img = new Image();
+const timeOfDay = getTimeOfDay();
+
+const imgTag = document.getElementById('img-tag');
+imgTag.addEventListener('change', function() {
+  setBg()
+});
+
+function setBg() {   
   const bgNum = String(randomNum).padStart(2, '0');
-  const img = new Image();
-  img.src = `https://raw.githubusercontent.com/mshns/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
-  img.onload = () => {
+
+  if (imgSourceSelect.value === 'github') {
+    img.src = `https://raw.githubusercontent.com/mshns/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+  } else if (imgSourceSelect.value === 'unsplash') {
+    getLinkFromUnsplash();
+  } else {
+    getLinkFromFlickr();
+  }
+    img.onload = () => {
     document.body.style.backgroundImage = `url(${img.src})`;
   }; 
 }
-
 setBg();
+
+async function getLinkFromUnsplash() {
+  if (imgTag.value.length === 0) {
+    url = `https://api.unsplash.com/photos/random?query=${timeOfDay}&client_id=7wwh-fH0gsmQEomAN8GmRIpI35T1KRvY3MK2N72vuwM`;
+  } else {
+    url = `https://api.unsplash.com/photos/random?query=${imgTag.value}&client_id=7wwh-fH0gsmQEomAN8GmRIpI35T1KRvY3MK2N72vuwM`;
+  }  
+  const res = await fetch(url);
+  const data = await res.json();
+  img.src = await data.urls.regular;
+}
+
+ async function getLinkFromFlickr() {
+  if (imgTag.value.length === 0) {
+    url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=4cfde6c942ca8c9fc4243134ccd13223&tags=${timeOfDay}&extras=url_l&format=json&nojsoncallback=1`;
+  } else {
+    url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=4cfde6c942ca8c9fc4243134ccd13223&tags=${imgTag.value}&extras=url_l&format=json&nojsoncallback=1`;
+  }
+  const res = await fetch(url);
+  const data = await res.json();
+  const randomNum = Math.floor(Math.random() * data.photos.photo.length);
+  img.src = await data.photos.photo[randomNum].url_l;
+}
 
 const arrowPrev = document.querySelector('.slide-prev');
 const arrowNext = document.querySelector('.slide-next');
@@ -162,7 +198,6 @@ async function getWeather() {
 getWeather();
 
 city.addEventListener('change', function () {
-  url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
   getWeather();
 });
 

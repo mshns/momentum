@@ -56,8 +56,22 @@
   <footer class="footer">
     <div class="settings-container">
       <h3 class="settings-title">Settings</h3>
-      <h4 class="settings-subtitle">Language</h4>
-      <h4 class="settings-subtitle">Photo Gallery</h4>
+      <label for="language-select" class="language-label">Language</label>
+      <select class="language-select" id="language-select">
+        <option value="en">English</option>
+        <option value="ru">Русский</option>
+      </select>
+      <div class="photo-settings">
+        <h4 class="settings-subtitle">Photo Gallery</h4>
+        <label for="img-source" class="image-source-label">Image Source</label>
+        <select class="image-source-select" id="img-source">
+          <option value="github">GitHub Gallery</option>
+          <option value="unsplash">Unsplash API</option>
+          <option value="flickr">Flickr API</option>
+        </select>
+        <label for="img-tag" class="image-tag-label">Image Tags</label>
+        <input type="text" class="image-tag-input" placeholder="Еnter tag for photo please" id="img-tag">
+      </div>
       <h4 class="settings-subtitle">Widgets</h4>
       <ul class="input-widget-list">
         <li class="input-widget-item">

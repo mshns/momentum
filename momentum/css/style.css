@@ -335,8 +335,8 @@ body {
   flex-direction: column;
   justify-content: space-between;
   width: 320px;
-  height: 320px;
-  background-color: rgb(0, 0, 0, .4);
+  height: 280px;
+  background-color: rgb(0, 0, 0, .5);
   border-radius: 16px;
   transition: .5s ease-in-out;
 }
@@ -347,7 +347,7 @@ body {
 }
 
 .settings-title {
-  margin: 10px 10px 5px;
+  margin: 10px;
   font-size: 20px;
   font-weight: normal;
   color: #fff;  
@@ -357,13 +357,39 @@ body {
 }
 
 .settings-subtitle {
-  margin: 10px 10px 5px;
+  width: 300px;
+  margin: 10px;
   font-size: 16px;
   font-weight: normal;
-  color: #fff;  
-  border: 0;
-  outline: 0;
+  color: #fff;
   border-bottom: 1px solid rgb(255, 255, 255, .1);
+}
+
+.language-label,
+.language-select {
+  margin: 6px;
+}
+
+.photo-settings {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.image-source-label,
+.image-tag-label {
+  width: 40%;
+  text-align: right;
+  margin: 6px;
+}
+
+.image-source-select {
+  margin: 6px;
+}
+
+.image-tag-input {
+  width: 50%;
+  margin: 6px;
 }
 
 .input-widget-list {
