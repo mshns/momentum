@@ -106,22 +106,38 @@
     </div>
     <div class="settings">
       <button class="settings-button" type="button">
-        <img class="settings-button-icon" src="assets/svg/settings.svg" alt="Arrow Right">
+        <img class="settings-button-icon" src="assets/svg/settings.svg" alt="Settings Icon">
         <span>Settings</span>
       </button>
     </div>
-    <div class="quotes">
-      <button class="change-quote"></button>
-      <div>
-        <div class="quote"></div>
-        <div class="author"></div>
+    <div class="footer-center">
+      <div class="quotes">
+        <button class="change-quote"></button>
+        <div>
+          <div class="quote"></div>
+          <div class="author"></div>
+        </div>
       </div>
-    </div>
-    <div class="logo">
       <ul class="logo-list">
+        <li class="logo-item">Momentum &copy; 2022</li>
         <li class="logo-item"><a href="https://github.com/mshns" title="GitHub"><img class="socialmedia-icon" src="assets/svg/github.svg" alt="GitHub Logo"></a></li>
         <li class="logo-item"><a href="https://rs.school/js-stage0/" title="Rolling Scopes School"><img class="socialmedia-icon" src="assets/svg/rsschooljs.svg" alt="Rolling Scopes School Logo"></a></li>
       </ul>
+    </div>    
+    <div class="todo-container">
+      <button class="todo-button" type="button">
+        <span>ToDo List</span>
+        <img class="todo-button-icon" src="assets/svg/todolist.svg" alt="ToDo List">
+      </button>
+    </div>
+    <div class="todolist-container">
+      <h3 class="settings-title">ToDo List</h3>
+      <select class="todo-select">
+        <option value="today" class="todo-select-title">Today</option>
+        <option value="done" class="todo-select-title">Done</option>
+      </select>
+      <ul class="todo-list"></ul>
+      <input type="text" class="todo-new" placeholder="Enter new ToDo please">
     </div>
   </footer>
   <script type="module" src="js/script.js"></script>

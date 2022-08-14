@@ -13,19 +13,6 @@ function showTime() {
   const currentDate = date.toLocaleDateString('en-En', options);
   showDate.textContent = currentDate;
 
-  function getTimeOfDay() {
-    const date = new Date();
-    const hours = date.getHours();
-    switch (Math.trunc(hours / 6)) {
-      case 3: return 'evening';
-        break;
-      case 2: return 'afternoon';
-        break;
-      case 1: return 'morning';
-        break;
-      case 0: return 'night';
-    }
-  }
   const greeting = document.querySelector('.greeting');
   const timeOfDay = getTimeOfDay();
   greeting.textContent = `Good ${timeOfDay},`;
@@ -313,7 +300,7 @@ setInterval (TrackProgress, 1000);
 const currentTrackScale = document.querySelector('.current-track-scale');
 
 currentTrackScale.addEventListener('click', function(currentDuration) {
-  audio.currentTime = currentDuration.offsetX / parseInt(window.getComputedStyle(currentTrackScale).width) * audio.duration;
+  audio.currentTime = currentDuration.offsetX / parseInt(window.getComputedStyle(currentTrackScale).width) * audio.duration;  
 })
 
 audio.volume = .5;
@@ -340,6 +327,10 @@ volumeBar.addEventListener('click', function(changeVolume) {
     volumeBtn.classList.remove('volume-icon-on');
   }
 });
+
+// translate
+
+const langSelect = document.getElementById('language-select');
 
 // settings
 
@@ -380,4 +371,44 @@ checkboxPlayer.addEventListener('change', function() {
 });
 checkboxQuote.addEventListener('change', function() {
   checkboxQuote.checked ? quotesContainer.style.opacity = '1' : quotesContainer.style.opacity = '0';
+});
+checkboxTodo.addEventListener('change', function() {
+  if (checkboxTodo.checked) {
+    todoBtn.style.opacity = '1';
+    todoContainer.style.opacity = '1';
+  } else {
+    todoBtn.style.opacity = '0';
+    todoContainer.style.opacity = '0';
+  }
+});
+
+// todo list
+
+const todoBtn = document.querySelector('.todo-button');
+const todoContainer = document.querySelector('.todolist-container');
+
+todoBtn.addEventListener('click', function() {
+  todoContainer.classList.toggle('active');
+});
+
+const arrTodoItems = [];
+const newTodo = document.querySelector('.todo-new');
+const listTodo = document.querySelector('.todo-list');
+
+newTodo.addEventListener('change', function() {
+  arrTodoItems.push(newTodo.value);
+  const li = document.createElement('li');
+  const label = document.createElement('label');
+  const input = document.createElement('input');
+
+  input.type = 'checkbox';
+  input.id = newTodo.value;
+
+  label.classList.add('todo-item-label');
+  label.innerHTML = newTodo.value;
+  label.htmlFor = newTodo.value;
+
+  li.append(input)
+  li.append(label)
+  listTodo.append(li);
 });
