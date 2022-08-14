@@ -1,23 +1,49 @@
 // time and greeting
 
 const time = document.querySelector('.time');
-const showDate = document.querySelector('.date');
+const dateContainer = document.querySelector('.date');
+const greeting = document.querySelector('.greeting');
+
+let lang = 'en';
 
 function showTime() {
   const date = new Date();
   const currentTime = date.toLocaleTimeString();
   time.textContent = currentTime;
-  setTimeout(showTime, 1000);
+  setTimeout(showTime, 1000); 
 
-  const options = {month: 'long', day: 'numeric', weekday: 'long'};
-  const currentDate = date.toLocaleDateString('en-En', options);
-  showDate.textContent = currentDate;
-
-  const greeting = document.querySelector('.greeting');
-  const timeOfDay = getTimeOfDay();
-  greeting.textContent = `Good ${timeOfDay},`;
+  showDate(lang);
+  showGreeting(lang);
 }
 showTime();
+
+function showGreeting(lang) {
+  const date = new Date();
+  const hours = date.getHours();
+  const greetingTranslation =
+  [
+    {
+      'en': 'Good night,',
+      'ru': 'Доброй ночи,'},
+    {
+      'en': 'Good morning,',
+      'ru': 'Доброе утро,'},
+    {
+      'en': 'Good afternoon,',
+      'ru': 'Добрый день,'},
+    {
+      'en': 'Good evening,',
+      'ru': 'Добрый вечер,'}
+  ]
+  greeting.textContent = greetingTranslation[Math.trunc(hours / 6)][lang];
+}
+
+function showDate(lang) {
+  const date = new Date();
+  const options = {month: 'long', day: 'numeric', weekday: 'long'};
+  const currentDate = date.toLocaleDateString(lang, options);
+  dateContainer.textContent = currentDate.charAt(0).toUpperCase() + currentDate.slice(1);
+}
 
 // enter name
 
@@ -143,7 +169,7 @@ window.addEventListener('beforeunload', setLocalStorageCity)
 function getLocalStorageCity() {
   if (localStorage.getItem('city')) {
     city.value = localStorage.getItem('city');
-    getWeather();
+    getWeather(lang);
   }
 }
 window.addEventListener('load', getLocalStorageCity)
@@ -154,8 +180,31 @@ const weatherDescription = document.querySelector('.weather-description');
 const wind = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
 const weatherError = document.querySelector('.weather-error');
-async function getWeather() {
-  url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
+
+const weatherTranslation =
+  [
+    {
+      'en': 'Wind speed',
+      'ru': 'Скорость ветра'},
+    {
+      'en': 'm/s',
+      'ru': 'м/с'},
+    {
+      'en': 'Humidity',
+      'ru': 'Влажность'},
+    {
+      'en': 'Please enter your city to check the weather 🙂',
+      'ru': 'Введите свой город, чтобы узнать погоду 🙂'},
+    {
+      'en': 'Error! The weather in ',
+      'ru': 'Ошибка! Погода в городе "'},
+    {
+      'en': '" is unknown 😐',
+      'ru': '" неизвестна 😐'}
+  ]
+
+async function getWeather(lang) {
+  url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${lang}&appid=31df4aedff183fc292facbbf30cdb742&units=metric`;
   const res = await fetch(url);
   const data = await res.json();
   if (data.cod === 200) {
@@ -164,28 +213,28 @@ async function getWeather() {
     weatherError.textContent = undefined;
     temperature.textContent = `${Math.round(data.main.temp)}°C`;
     weatherDescription.textContent = data.weather[0].description;
-    wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
-    humidity.textContent = `Humidity: ${Math.round(data.main.humidity)}%`;
+    wind.textContent = weatherTranslation[0][lang] + ': ' + Math.round(data.wind.speed) + ' ' + weatherTranslation[1][lang];
+    humidity.textContent = weatherTranslation[2][lang] + ': ' + Math.round(data.main.humidity) + '%';
   } else if (city.value === '') {
     weatherIcon.className = 'weather-icon owf';
-    weatherError.textContent = 'Please enter your city to check the weather 🙂';
+    weatherError.textContent = weatherTranslation[3][lang];
     temperature.textContent = undefined;
     weatherDescription.textContent = undefined;
     wind.textContent = undefined;
     humidity.textContent = undefined;
   } else {
     weatherIcon.className = 'weather-icon owf';
-    weatherError.textContent = `Error! The weather in "${city.value}" is unknown 😐`;
+    weatherError.textContent = weatherTranslation[4][lang] + city.value + weatherTranslation[5][lang];
     temperature.textContent = undefined;
     weatherDescription.textContent = undefined;
     wind.textContent = undefined;
     humidity.textContent = undefined;
   }
 }
-getWeather();
+getWeather(lang);
 
 city.addEventListener('change', function () {
-  getWeather();
+  getWeather(lang);
 });
 
 // quotes
@@ -193,25 +242,30 @@ city.addEventListener('change', function () {
 const quoteText = document.querySelector('.quote');
 const quoteAuthor = document.querySelector('.author');
 
-let quoteNum = getRandomNum(1, 95);
+let quoteNum = getRandomNum(0, 9);
 
-async function getQuotes() {  
-  const quotes = 'json/quotes.json';
+async function getQuotes(lang) {  
+  const quotes = 'json/quote.json';
   const res = await fetch(quotes);
-  const data = await res.json(); 
-  quoteText.textContent = data[quoteNum].quote;
-  quoteAuthor.textContent = data[quoteNum].author;
+  const data = await res.json();
+  if (lang === 'en') {
+    quoteText.textContent = data[quoteNum].enQuote;
+    quoteAuthor.textContent = data[quoteNum].enAuthor;
+  } else {
+    quoteText.textContent = data[quoteNum].ruQuote;
+    quoteAuthor.textContent = data[quoteNum].ruAuthor;
+  }
 }
-getQuotes();
+getQuotes(lang);
 
 const changeQuote = document.querySelector('.change-quote');
 changeQuote.addEventListener('click', function() {
   let quoteNext = quoteNum;
   while (quoteNext === quoteNum) {
-    quoteNext = getRandomNum(1, 95);
+    quoteNext = getRandomNum(0, 9);
   }
   quoteNum = quoteNext;
-  getQuotes();
+  getQuotes(lang);
 });
 
 // audio player
@@ -332,7 +386,108 @@ volumeBar.addEventListener('click', function(changeVolume) {
 
 const langSelect = document.getElementById('language-select');
 
+langSelect.addEventListener('change', function() {
+  lang = langSelect.value;
+  showTime(lang);
+  if (lang === 'en') {
+    city.value = 'Minsk';
+    yourName.placeholder = '[enter name]';
+    city.placeholder = 'enter city please';
+    
+  } else {
+    city.value = 'Минск';
+    yourName.placeholder = '[введите имя]';
+    city.placeholder = 'введите город';
+  }
+  loadSettings(lang);
+  getWeather(lang);
+  getQuotes(lang);
+})
+
 // settings
+
+const settingsTranslation =
+  [
+    {
+      'en': 'Settings',
+      'ru': 'Настройки'},
+    {
+      'en': 'Language',
+      'ru': 'Язык'},
+    {
+      'en': 'Photo Gallery',
+      'ru': 'Фото галерея'},
+    {
+      'en': 'Image Source',
+      'ru': 'Источник фото'},
+    {
+      'en': 'Image Tags',
+      'ru': 'Тег фото'},
+    {
+      'en': 'Еnter tag for photo please',
+      'ru': 'Введите тег для фото'},
+    {
+      'en': 'Widgets',
+      'ru': 'Виджеты'},
+    {
+      'en': 'Time',
+      'ru': 'Время'},
+    {
+      'en': 'Date',
+      'ru': 'Дата'},
+    {
+      'en': 'Greeting',
+      'ru': 'Приветствие'},
+    {
+      'en': 'Weather',
+      'ru': 'Погода'},
+    {
+      'en': 'Audio Player',
+      'ru': 'Плеер'},
+    {
+      'en': 'Quote',
+      'ru': 'Цитата'},
+    {
+      'en': 'ToDo List',
+      'ru': 'Список дел'},
+]
+
+const settingsTitle = document.querySelector('.settings-title');
+const settingsLang = document.querySelector('.language-label');
+const photoGallary = document.querySelector('.photo-gallary');
+const imageSource = document.querySelector('.image-source-label');
+const imageTag = document.querySelector('.image-tag-label');
+const imageTagInput = document.querySelector('.image-tag-input');
+const widgets = document.querySelector('.widgets');
+const labelTime = document.querySelector('.input-label-time');
+const labelDate = document.querySelector('.input-label-date');
+const labelGreeting = document.querySelector('.input-label-greeting');
+const labelWeather = document.querySelector('.input-label-weather');
+const labelPlayer = document.querySelector('.input-label-player');
+const labelQuote = document.querySelector('.input-label-quote');
+const labelTodo = document.querySelector('.input-label-todo');
+
+const btnSettingsTitle = document.querySelector('.settings-button-title');
+const btnTodoTitle = document.querySelector('.todo-button-title');
+
+function loadSettings(lang) {
+  settingsTitle.textContent = settingsTranslation[0][lang];
+  settingsLang.textContent = settingsTranslation[1][lang];
+  photoGallary.textContent = settingsTranslation[2][lang];
+  imageSource.textContent = settingsTranslation[3][lang];
+  imageTag.textContent = settingsTranslation[4][lang];
+  imageTagInput.placeholder = settingsTranslation[5][lang];
+  widgets.textContent = settingsTranslation[6][lang];
+  labelTime.textContent = settingsTranslation[7][lang];
+  labelDate.textContent = settingsTranslation[8][lang];
+  labelGreeting.textContent = settingsTranslation[9][lang];
+  labelWeather.textContent = settingsTranslation[10][lang];
+  labelPlayer.textContent = settingsTranslation[11][lang];
+  labelQuote.textContent = settingsTranslation[12][lang];
+  labelTodo.textContent = settingsTranslation[13][lang];
+  btnSettingsTitle.textContent = settingsTranslation[0][lang];
+  btnTodoTitle.textContent = settingsTranslation[13][lang];
+}
 
 const settingsBtn = document.querySelector('.settings-button');
 const settingsContainer = document.querySelector('.settings-container');
@@ -358,7 +513,7 @@ checkboxTime.addEventListener('change', function() {
   checkboxTime.checked ? time.style.opacity = '1' : time.style.opacity = '0';
 });
 checkboxDate.addEventListener('change', function() {
-  checkboxDate.checked ? showDate.style.opacity = '1' : showDate.style.opacity = '0';
+  checkboxDate.checked ? dateContainer.style.opacity = '1' : dateContainer.style.opacity = '0';
 });
 checkboxGreeting.addEventListener('change', function() {
   checkboxGreeting.checked ? greetingContainer.style.opacity = '1' : greetingContainer.style.opacity = '0';

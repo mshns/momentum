@@ -338,7 +338,7 @@ body {
   left: -320px;
   z-index: -100;
   width: 320px;
-  height: 280px;
+  padding-bottom: 5px;
   background-color: rgb(0, 0, 0, .5);
   border-radius: 16px;
   transition: .5s ease-in-out;

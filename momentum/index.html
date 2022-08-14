@@ -50,7 +50,7 @@
     <date class="date"></date>
     <div class="greeting-container">
       <span class="greeting"></span>
-      <input type="text" placeholder="enter name please" class="name" />
+      <input type="text" placeholder="[enter name]" class="name" />
     </div>
   </main>
   <footer class="footer">
@@ -62,52 +62,52 @@
         <option value="ru">Русский</option>
       </select>
       <div class="photo-settings">
-        <h4 class="settings-subtitle">Photo Gallery</h4>
+        <h4 class="settings-subtitle photo-gallary">Photo Gallery</h4>
         <label for="img-source" class="image-source-label">Image Source</label>
         <select class="image-source-select" id="img-source">
-          <option value="github">GitHub Gallery</option>
+          <option value="github">GitHub</option>
           <option value="unsplash">Unsplash API</option>
           <option value="flickr">Flickr API</option>
         </select>
         <label for="img-tag" class="image-tag-label">Image Tags</label>
         <input type="text" class="image-tag-input" placeholder="Еnter tag for photo please" id="img-tag">
       </div>
-      <h4 class="settings-subtitle">Widgets</h4>
+      <h4 class="settings-subtitle widgets">Widgets</h4>
       <ul class="input-widget-list">
         <li class="input-widget-item">
           <input type="checkbox" class="input-checkbox checkbox-time" id="checkbox-time" checked>
-          <label for="checkbox-time" class="input-label">Time</label>
+          <label for="checkbox-time" class="input-label-time">Time</label>
         </li>
         <li class="input-widget-item">
           <input type="checkbox" class="input-checkbox checkbox-date" id="checkbox-date" checked>
-          <label for="checkbox-date" class="input-label">Date</label>
+          <label for="checkbox-date" class="input-label-date">Date</label>
         </li>
         <li class="input-widget-item">
           <input type="checkbox" class="input-checkbox checkbox-greeting" id="checkbox-greeting" checked>
-          <label for="checkbox-greeting" class="input-label">Greeting</label>
+          <label for="checkbox-greeting" class="input-label-greeting">Greeting</label>
         </li>
         <li class="input-widget-item">
           <input type="checkbox" class="input-checkbox checkbox-weather" id="checkbox-weather" checked>
-          <label for="checkbox-weather" class="input-label">Weather</label>
+          <label for="checkbox-weather" class="input-label-weather">Weather</label>
         </li>
         <li class="input-widget-item">
           <input type="checkbox" class="input-checkbox checkbox-player" id="checkbox-player" checked>
-          <label for="checkbox-player" class="input-label">Audio&nbsp;Player</label>
+          <label for="checkbox-player" class="input-label-player">Audio&nbsp;Player</label>
         </li>
         <li class="input-widget-item">
           <input type="checkbox" class="input-checkbox checkbox-quote" id="checkbox-quote" checked>
-          <label for="checkbox-quote" class="input-label">Quote</label>
+          <label for="checkbox-quote" class="input-label-quote">Quote</label>
         </li>
         <li class="input-widget-item">
           <input type="checkbox" class="input-checkbox checkbox-todo" id="checkbox-todo" checked>
-          <label for="checkbox-todo" class="input-label">ToDo&nbsp;List</label>
+          <label for="checkbox-todo" class="input-label-todo">ToDo&nbsp;List</label>
         </li>
       </ul>       
     </div>
     <div class="settings">
       <button class="settings-button" type="button">
         <img class="settings-button-icon" src="assets/svg/settings.svg" alt="Settings Icon">
-        <span>Settings</span>
+        <span class="settings-button-title">Settings</span>
       </button>
     </div>
     <div class="footer-center">
@@ -126,7 +126,7 @@
     </div>    
     <div class="todo-container">
       <button class="todo-button" type="button">
-        <span>ToDo List</span>
+        <span class="todo-button-title">ToDo List</span>
         <img class="todo-button-icon" src="assets/svg/todolist.svg" alt="ToDo List">
       </button>
     </div>
