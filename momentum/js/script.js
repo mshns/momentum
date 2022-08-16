@@ -4,7 +4,8 @@ const time = document.querySelector('.time');
 const dateContainer = document.querySelector('.date');
 const greeting = document.querySelector('.greeting');
 
-let lang = 'en';
+let lang;
+localStorage.getItem('lang') ? lang = localStorage.getItem('lang') : lang = 'en';
 
 function showTime() {
   const date = new Date();
@@ -49,17 +50,17 @@ function showDate(lang) {
 
 const yourName = document.querySelector('.name');
 
-function setLocalStorage() {
+function setLocalStorageName() {
   localStorage.setItem('name', yourName.value);
 }
-window.addEventListener('beforeunload', setLocalStorage);
+window.addEventListener('beforeunload', setLocalStorageName);
 
-function getLocalStorage() {
+function getLocalStorageName() {
   if (localStorage.getItem('name')) {
     yourName.value = localStorage.getItem('name');
   }
 }
-window.addEventListener('load', getLocalStorage);
+window.addEventListener('load', getLocalStorageName);
 
 // slider bg images
 
@@ -77,27 +78,43 @@ function getTimeOfDay() {
   }
 }
 
+const img = new Image();
+const timeOfDay = getTimeOfDay();
+
 function getRandomNum(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
 let randomNum = getRandomNum(1, 20);
 
 const imgSourceSelect = document.getElementById('img-source');
-imgSourceSelect.addEventListener('change', function() {
-  setBg()
+const imgTag = document.getElementById('img-tag');
+
+
+function getLocalStorageImg() {
+  if (localStorage.getItem('imgSource')) {
+    imgSourceSelect.value = localStorage.getItem('imgSource');
+  }
+  if (localStorage.getItem('imgTag')) {
+    imgTag.value = localStorage.getItem('imgTag');
+  }
+};
+
+window.addEventListener('load', function() {
+  getLocalStorageImg();
 });
 
-const img = new Image();
-const timeOfDay = getTimeOfDay();
+imgSourceSelect.addEventListener('change', function() {
+  setBg()
+  localStorage.setItem('imgSource', imgSourceSelect.value);
+});
 
-const imgTag = document.getElementById('img-tag');
 imgTag.addEventListener('change', function() {
   setBg()
+  localStorage.setItem('imgTag', imgTag.value);
 });
 
 function setBg() {   
   const bgNum = String(randomNum).padStart(2, '0');
-
   if (imgSourceSelect.value === 'github') {
     img.src = `https://raw.githubusercontent.com/mshns/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
   } else if (imgSourceSelect.value === 'unsplash') {
@@ -159,12 +176,12 @@ arrowNext.addEventListener('click', function getSlideNext() {
 
 const city = document.querySelector('.city');
 let url;
-city.value = 'Minsk';
+lang === 'en' ? city.value = 'Minsk' : city.value = 'Минск';
 
 function setLocalStorageCity() {
   localStorage.setItem('city', city.value);
 }
-window.addEventListener('beforeunload', setLocalStorageCity)
+city.addEventListener('change', setLocalStorageCity)
 
 function getLocalStorageCity() {
   if (localStorage.getItem('city')) {
@@ -172,7 +189,7 @@ function getLocalStorageCity() {
     getWeather(lang);
   }
 }
-window.addEventListener('load', getLocalStorageCity)
+window.addEventListener('load', getLocalStorageCity);
 
 const weatherIcon = document.querySelector('.weather-icon');
 const temperature = document.querySelector('.temperature');
@@ -390,18 +407,14 @@ langSelect.addEventListener('change', function() {
   lang = langSelect.value;
   showTime(lang);
   if (lang === 'en') {
-    city.value = 'Minsk';
-    yourName.placeholder = '[enter name]';
-    city.placeholder = 'enter city please';
-    
+    localStorage.getItem('city') ? city.value = localStorage.getItem('city') : city.value = 'Minsk';
   } else {
-    city.value = 'Минск';
-    yourName.placeholder = '[введите имя]';
-    city.placeholder = 'введите город';
+    localStorage.getItem('city') ? city.value = localStorage.getItem('city') : city.value = 'Минск';
   }
   loadSettings(lang);
   getWeather(lang);
   getQuotes(lang);
+  localStorage.setItem('lang', lang);
 })
 
 // settings
@@ -450,6 +463,12 @@ const settingsTranslation =
     {
       'en': 'ToDo List',
       'ru': 'Список дел'},
+    {
+      'en': '[enter name]',
+      'ru': '[введите имя]'},
+    {
+      'en': 'enter city please',
+      'ru': 'введите город'}
 ]
 
 const settingsTitle = document.querySelector('.settings-title');
@@ -487,7 +506,13 @@ function loadSettings(lang) {
   labelTodo.textContent = settingsTranslation[13][lang];
   btnSettingsTitle.textContent = settingsTranslation[0][lang];
   btnTodoTitle.textContent = settingsTranslation[13][lang];
+
+  yourName.placeholder = settingsTranslation[14][lang];
+  city.placeholder = settingsTranslation[15][lang];
+
+  langSelect.value = lang;
 }
+loadSettings(lang);
 
 const settingsBtn = document.querySelector('.settings-button');
 const settingsContainer = document.querySelector('.settings-container');
@@ -537,6 +562,40 @@ checkboxTodo.addEventListener('change', function() {
   }
 });
 
+// save settings in local storage
+
+function setLocalStorageChekbox() {
+  localStorage.setItem('checkboxTime', checkboxTime.checked);
+  localStorage.setItem('checkboxDate', checkboxDate.checked);
+  localStorage.setItem('checkboxGreeting', checkboxGreeting.checked);
+  localStorage.setItem('checkboxWeather', checkboxWeather.checked);
+  localStorage.setItem('checkboxPlayer', checkboxPlayer.checked);
+  localStorage.setItem('checkboxQuote', checkboxQuote.checked);
+  localStorage.setItem('checkboxTodo', checkboxTodo.checked);
+}
+window.addEventListener('beforeunload', setLocalStorageChekbox);
+
+function loadCheckbox(checkbox, value) {
+  if (localStorage.getItem(value)) {
+    checkbox.checked = localStorage.getItem(value) === 'false' ? false : true;
+  }
+}
+
+loadCheckbox(checkboxTime, 'checkboxTime');
+loadCheckbox(checkboxDate, 'checkboxDate');
+loadCheckbox(checkboxGreeting, 'checkboxGreeting');
+loadCheckbox(checkboxWeather, 'checkboxWeather');
+loadCheckbox(checkboxPlayer, 'checkboxPlayer');
+loadCheckbox(checkboxQuote, 'checkboxQuote');
+loadCheckbox(checkboxTodo, 'checkboxTodo');
+
+checkboxTime.checked ? time.style.opacity = '1' : time.style.opacity = '0';
+checkboxDate.checked ? dateContainer.style.opacity = '1' : dateContainer.style.opacity = '0';
+checkboxGreeting.checked ? greetingContainer.style.opacity = '1' : greetingContainer.style.opacity = '0';
+checkboxWeather.checked ? weatherContainer.style.opacity = '1' : weatherContainer.style.opacity = '0';
+checkboxPlayer.checked ? audioPlayer.style.opacity = '1' : audioPlayer.style.opacity = '0';
+checkboxQuote.checked ? quotesContainer.style.opacity = '1' : quotesContainer.style.opacity = '0';
+
 // todo list
 
 const todoBtn = document.querySelector('.todo-button');
@@ -567,3 +626,8 @@ newTodo.addEventListener('change', function() {
   li.append(label)
   listTodo.append(li);
 });
+
+if (!checkboxTodo.checked) {
+  todoBtn.style.opacity = '0';
+  todoContainer.style.opacity = '0';
+}
