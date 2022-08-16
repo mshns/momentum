@@ -547,6 +547,10 @@ body {
   outline: none;
 }
 
+.checkbox-item-todo {
+  width: 100%;
+}
+
 .btn-todo-del {
   width: 16px;
   height: 16px;
