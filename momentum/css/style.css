@@ -547,6 +547,18 @@ body {
   outline: none;
 }
 
+.btn-todo-del {
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  background-image: url("../assets/svg/cross.svg");
+  background-size: cover;
+}
+
+.hidden {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .time {
     min-height: 80px;

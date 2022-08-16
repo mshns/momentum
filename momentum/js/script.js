@@ -534,6 +534,9 @@ const weatherContainer = document.querySelector('.weather');
 const audioPlayer = document.querySelector('.player');
 const quotesContainer = document.querySelector('.quotes');
 
+const todoBtn = document.querySelector('.todo-button');
+const todoContainer = document.querySelector('.todolist-container');
+
 checkboxTime.addEventListener('change', function() {
   checkboxTime.checked ? time.style.opacity = '1' : time.style.opacity = '0';
 });
@@ -596,38 +599,58 @@ checkboxWeather.checked ? weatherContainer.style.opacity = '1' : weatherContaine
 checkboxPlayer.checked ? audioPlayer.style.opacity = '1' : audioPlayer.style.opacity = '0';
 checkboxQuote.checked ? quotesContainer.style.opacity = '1' : quotesContainer.style.opacity = '0';
 
-// todo list
+if (!checkboxTodo.checked) {
+  todoBtn.style.opacity = '0';
+  todoContainer.style.opacity = '0';
+}
 
-const todoBtn = document.querySelector('.todo-button');
-const todoContainer = document.querySelector('.todolist-container');
+// todo list
 
 todoBtn.addEventListener('click', function() {
   todoContainer.classList.toggle('active');
 });
 
-const arrTodoItems = [];
 const newTodo = document.querySelector('.todo-new');
 const listTodo = document.querySelector('.todo-list');
+const todoSelect = document.querySelector('.todo-select');
 
-newTodo.addEventListener('change', function() {
-  arrTodoItems.push(newTodo.value);
-  const li = document.createElement('li');
-  const label = document.createElement('label');
-  const input = document.createElement('input');
+newTodo.addEventListener('change', function () {
+	if (todoSelect.value === 'today' && newTodo.value !== '') {
+		const li = document.createElement('li');
+		const input = document.createElement('input');
+		const label = document.createElement('label');
+		const button = document.createElement('button');
+		li.classList.add('checkbox-item-todo');
+		input.classList.add('checkbox-new-todo');
+		input.type = 'checkbox';
+		input.id = newTodo.value;
+		label.classList.add('checkbox-text-todo');
+		label.textContent = newTodo.value
+		label.htmlFor = newTodo.value
+		button.classList.add('btn-todo-del')
+		listTodo.append(li)
+		li.append(input)
+		li.append(label)
+		li.append(button)
+		const todoDel = document.querySelectorAll('.btn-todo-del')
+		const checkboxItemTodo = document.querySelectorAll('.checkbox-item-todo')
+		todoDel.forEach((el, index) => {
+			el.addEventListener('click', () => {
+				checkboxItemTodo[index].remove()
+			})
+		})
+	}
+})
 
-  input.type = 'checkbox';
-  input.id = newTodo.value;
+todoSelect.addEventListener('change', function () {
+	const checkboxNewTodo = document.querySelectorAll('.checkbox-new-todo')
+	const checkboxItemTodo = document.querySelectorAll('.checkbox-item-todo')
 
-  label.classList.add('todo-item-label');
-  label.innerHTML = newTodo.value;
-  label.htmlFor = newTodo.value;
-
-  li.append(input)
-  li.append(label)
-  listTodo.append(li);
-});
-
-if (!checkboxTodo.checked) {
-  todoBtn.style.opacity = '0';
-  todoContainer.style.opacity = '0';
-}
+	checkboxNewTodo.forEach((el, index) => {
+		if (todoSelect.value === 'done' && el.checked === false) {
+			checkboxItemTodo[index].classList.add('hidden')
+		} else if (todoSelect.value === 'today') {
+			checkboxItemTodo[index].classList.remove('hidden')
+		}
+	})
+})
