@@ -311,16 +311,19 @@ currentTrackTitle.textContent = playList[playNum].title;
 let isPlay = false;
 const audio = new Audio();
 
+let pauseTime = 0;
+
 function playAudio() {
-  audio.src = playList[playNum].src;
   play.classList.toggle('pause');
   musicTrack[playNum].classList.toggle('item-active');
   if (!isPlay) {
-    audio.currentTime = 0;
+    audio.src = playList[playNum].src;
+    audio.currentTime = pauseTime;
     audio.play();
     currentTrackTitle.textContent = playList[playNum].title;
     isPlay = true;
   } else {
+    pauseTime = audio.currentTime;
     audio.pause();
     isPlay = false;
   }
@@ -332,6 +335,7 @@ playPrev.addEventListener('click', function() {
   playNum === 0 ? playNum = playList.length - 1 : playNum--;
   isPlay = false;
   play.classList.remove('pause');
+  pauseTime = 0;
   playAudio();
 });
 
@@ -340,6 +344,7 @@ function nextTrack() {
   playNum === playList.length - 1 ? playNum = 0 : playNum++;
   isPlay = false;
   play.classList.remove('pause');
+  pauseTime = 0;
   playAudio();
 }
 
@@ -353,6 +358,9 @@ musicTrack.forEach((el, index) => {
       isPlay = false;
       play.classList.remove('pause');
       musicTrack[playNum].classList.remove('item-active');
+    }
+    if (playNum != index) {
+      pauseTime = 0;
     }
     playNum = index;
     playAudio();
