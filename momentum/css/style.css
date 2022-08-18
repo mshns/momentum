@@ -10,8 +10,8 @@
 }
 
 body {
-  min-width: 480px;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   font-family: 'Arial', sans-serif;
   font-size: 16px;
   color: #fff;
@@ -425,6 +425,8 @@ body {
 
 .settings-button-icon,
 .todo-button-icon {
+
+  height: 32px;
   padding: 5px;
   opacity: .8;
   transition: ease-in-out .5s;
@@ -571,6 +573,12 @@ body {
 }
 
 @media (max-width: 768px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .time {
     min-height: 80px;
     font-size: 72px;    
@@ -588,5 +596,11 @@ body {
   .name {
     font-size: 32px;
     padding: 5px;
+  }
+
+  .logo-list,
+  .todo-button-title,
+  .settings-button-title {
+    display: none;
   }
 }
