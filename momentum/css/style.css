@@ -11,14 +11,12 @@
 
 body {
   width: 100vw;
-  height: 100vh;
   font-family: 'Arial', sans-serif;
   font-size: 16px;
   color: #fff;
   text-align: center;
   background-blend-mode: multiply;
   transition: background-image 1s ease-in-out;
-  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -29,8 +27,6 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  height: 30vh;
-  min-height: 220px;  
   padding: 20px;
 }
 
@@ -425,7 +421,6 @@ body {
 
 .settings-button-icon,
 .todo-button-icon {
-
   height: 32px;
   padding: 5px;
   opacity: .8;
