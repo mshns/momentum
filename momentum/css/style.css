@@ -332,6 +332,10 @@ body {
   padding: 20px;
 }
 
+.settings {
+  width: 20%;
+}
+
 .settings-container {
   position: fixed;
   bottom: 60px;
@@ -433,6 +437,7 @@ body {
 }
 
 .footer-center {
+  width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -482,7 +487,9 @@ body {
 }
 
 .todo-container {
-  text-align: right;
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .todo-button-icon {
