@@ -17,7 +17,7 @@ body {
   text-align: center;
   background-blend-mode: multiply;
   transition: background-image 1s ease-in-out;
-  background-size: auto;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
