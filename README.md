@@ -1,7 +1,3 @@
-# mshns-JSFEPRESCHOOL2022Q2
-Private repository for @mshns
----
-* Travel: https://rolling-scopes-school.github.io/mshns-JSFEPRESCHOOL2022Q2/travel/
-* Momentum: https://rolling-scopes-school.github.io/mshns-JSFEPRESCHOOL2022Q2/momentum/
----
-* My CV: https://mshns.github.io/rsschool-cv/
+# Momentum App
+* Deploy: https://rolling-scopes-school.github.io/mshns-JSFEPRESCHOOL2022Q2/travel/
+* RS School Deploy: https://rolling-scopes-school.github.io/mshns-JSFEPRESCHOOL2022Q2/momentum/
